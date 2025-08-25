@@ -4,21 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>السيرفرات تحت الصيانة</title>
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --primary-color: #6c5ce7;
-            --primary-light: #a29bfe;
-            --secondary-color: #00d2d3;
-            --accent-color: #fd79a8;
-            --dark-bg: #0f0f1a;
-            --card-bg: #1e1e30;
-            --text-light: #f8f9fa;
-            --text-muted: #b8b8d0;
-            --border-color: #2d2d40;
-            --gradient: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            --primary: #6366f1;
+            --secondary: #8b5cf6;
+            --accent: #06b6d4;
+            --pink: #ec4899;
+            --orange: #f97316;
+            --dark: #0f172a;
+            --darker: #020617;
+            --card: #1e293b;
+            --border: #334155;
+            --text: #f8fafc;
+            --text-dim: #cbd5e1;
+            --text-muted: #64748b;
+            --glass: rgba(30, 41, 59, 0.7);
+            --glow: rgba(99, 102, 241, 0.4);
         }
 
         * {
@@ -28,38 +31,97 @@
         }
 
         body {
-            font-family: 'Tajawal', sans-serif;
-            background: var(--dark-bg);
-            background-image: 
-                radial-gradient(circle at 10% 20%, rgba(108, 92, 231, 0.08) 0%, transparent 40%),
-                radial-gradient(circle at 90% 80%, rgba(0, 210, 211, 0.08) 0%, transparent 40%);
+            font-family: 'Tajawal', 'Inter', sans-serif;
+            background: var(--darker);
             min-height: 100vh;
-            color: var(--text-light);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            position: relative;
+            color: var(--text);
             overflow-x: hidden;
+            position: relative;
         }
+
+        /* Animated Background */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: var(--accent);
+            border-radius: 50%;
+            opacity: 0.8;
+            animation: float 20s infinite linear;
+        }
+
+        .gradient-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(60px);
+            animation: drift 15s infinite ease-in-out;
+            opacity: 0.6;
+        }
+
+        .orb-1 {
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, var(--primary), transparent);
+            top: 10%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .orb-2 {
+            width: 150px;
+            height: 150px;
+            background: radial-gradient(circle, var(--secondary), transparent);
+            top: 60%;
+            right: 15%;
+            animation-delay: 5s;
+        }
+
+        .orb-3 {
+            width: 100px;
+            height: 100px;
+            background: radial-gradient(circle, var(--pink), transparent);
+            bottom: 20%;
+            left: 20%;
+            animation-delay: 10s;
+        }
+
 
         .container {
-            width: 100%;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 0 15px;
-            text-align: center;
+            position: relative;
+            z-index: 10;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
         }
 
+
         .maintenance-card {
-            background: var(--card-bg);
-            border-radius: 20px;
-            padding: 2rem;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-            border: 1px solid var(--border-color);
-            margin: 2rem 0;
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 3rem;
+            max-width: 600px;
+            width: 100%;
+            text-align: center;
             position: relative;
             overflow: hidden;
+            box-shadow: 
+                0 25px 50px rgba(0, 0, 0, 0.5),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            animation: slideUp 1s ease-out;
         }
 
         .maintenance-card::before {
@@ -67,146 +129,471 @@
             position: absolute;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 5px;
-            background: var(--gradient);
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary), var(--accent), var(--pink));
+            animation: shimmer 2s infinite;
         }
 
-        .maintenance-card h1 {
-            font-size: 2.5rem;
-            font-weight: 700;
+        /* Header */
+        .header {
+            margin-bottom: 2rem;
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(236, 72, 153, 0.2);
+            border: 1px solid var(--pink);
+            color: var(--pink);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 500;
             margin-bottom: 1.5rem;
-            color: var(--text-light);
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-            animation: pulse 2s infinite ease-in-out;
+            animation: pulse-glow 2s infinite;
         }
 
-        .avatar-image {
-            width: 200px;
-            height: 200px;
+        .title {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 900;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--text), var(--text-dim));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.02em;
+            line-height: 1.1;
+        }
+
+        .subtitle {
+            font-size: 1.25rem;
+            color: var(--text-dim);
+            font-weight: 400;
+            margin-bottom: 2rem;
+            opacity: 0;
+            animation: fadeIn 1s ease-out 0.5s forwards;
+        }
+
+
+        .avatar-section {
+            margin: 2rem 0;
+            position: relative;
+        }
+
+        .avatar-container {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 1.5rem;
+        }
+
+        .avatar {
+            width: 120px;
+            height: 120px;
             border-radius: 50%;
             object-fit: cover;
-            margin: 1.5rem auto;
-            border: 3px solid var(--primary-light);
-            box-shadow: 0 8px 20px rgba(108, 92, 231, 0.2);
-            animation: bounceIn 1s ease;
+            border: 3px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 
+                0 0 0 3px rgba(99, 102, 241, 0.3),
+                0 15px 35px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+            animation: avatarFloat 6s infinite ease-in-out;
         }
 
-        .admin-info {
-            margin: 1rem 0;
-            font-size: 1.2rem;
-            color: var(--text-muted);
+        .avatar:hover {
+            transform: scale(1.1);
+            box-shadow: 
+                0 0 0 5px rgba(99, 102, 241, 0.5),
+                0 25px 50px rgba(0, 0, 0, 0.4);
         }
 
-        .admin-info span {
-            color: var(--accent-color);
+        .owner-info {
+            font-size: 1.1rem;
+            color: var(--text-dim);
+        }
+
+        .owner-name {
+            color: var(--accent);
             font-weight: 700;
+            font-size: 1.3rem;
+            margin-left: 0.5rem;
+            background: linear-gradient(135deg, var(--accent), var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
-        .description {
-            background: var(--card-bg);
-            border-radius: 15px;
-            padding: 1.5rem;
-            margin: 1rem 0;
-            border: 1px solid var(--border-color);
-            animation: fadeInUp 1s ease;
+        /* Progress Section */
+        .progress-section {
+            margin: 2.5rem 0;
+            padding: 2rem;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
         }
 
-        .description h2 {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--text-light);
+        .progress-title {
+            font-size: 1.1rem;
+            color: var(--text);
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
             margin-bottom: 1rem;
         }
 
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            border-radius: 10px;
+            width: 0%;
+            animation: progressFill 3s ease-in-out infinite;
+            position: relative;
+        }
+
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            animation: progressShimmer 1.5s infinite;
+        }
+
+        /* Description */
+        .description {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 16px;
+            padding: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            margin: 2rem 0;
+            text-align: left;
+        }
+
+        .description h3 {
+            color: var(--text);
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
         .description p {
-            color: var(--text-muted);
-            line-height: 1.6;
-            font-size: 1rem;
+            color: var(--text-dim);
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
         }
 
-        .loading-spinner {
-            width: 50px;
-            height: 50px;
-            border: 4px solid transparent;
-            border-top: 4px solid var(--primary-color);
-            border-right: 4px solid var(--secondary-color);
-            border-bottom: 4px solid var(--accent-color);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin: 1rem auto;
+        .contact-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.75rem 1.5rem;
+            background: rgba(6, 182, 212, 0.1);
+            border: 1px solid rgba(6, 182, 212, 0.3);
+            border-radius: 12px;
+            transition: all 0.3s ease;
         }
 
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        .contact-link:hover {
+            background: rgba(6, 182, 212, 0.2);
+            border-color: var(--accent);
+            transform: translateY(-2px);
         }
 
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
+        /* Floating Elements */
+        .float-icon {
+            position: absolute;
+            color: rgba(255, 255, 255, 0.1);
+            font-size: 1.5rem;
+            animation: iconFloat 8s infinite ease-in-out;
+            pointer-events: none;
         }
+
+        .float-icon:nth-child(1) { top: 10%; left: 10%; animation-delay: 0s; }
+        .float-icon:nth-child(2) { top: 20%; right: 15%; animation-delay: 2s; }
+        .float-icon:nth-child(3) { bottom: 30%; left: 20%; animation-delay: 4s; }
+        .float-icon:nth-child(4) { bottom: 20%; right: 25%; animation-delay: 6s; }
+
+        /* Animations */
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% { 
+                box-shadow: 0 0 0 0 rgba(236, 72, 153, 0.4);
+            }
+            50% { 
+                box-shadow: 0 0 0 8px rgba(236, 72, 153, 0);
+            }
+        }
+
+        @keyframes avatarFloat {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes progressFill {
+            0% { width: 0%; }
+            50% { width: 75%; }
+            100% { width: 0%; }
+        }
+
+        @keyframes progressShimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.8;
+            }
+            90% {
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateY(-10vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        @keyframes drift {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            25% { transform: translate(30px, -30px) rotate(90deg); }
+            50% { transform: translate(-20px, 20px) rotate(180deg); }
+            75% { transform: translate(-30px, -10px) rotate(270deg); }
+        }
+
+        @keyframes iconFloat {
+            0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 0.1; }
+            50% { transform: translateY(-20px) rotate(180deg); opacity: 0.3; }
+        }
+
 
         @media (max-width: 768px) {
-            .maintenance-card h1 {
-                font-size: 2rem;
+            .maintenance-card {
+                padding: 2rem 1.5rem;
+                margin: 1rem;
             }
 
-            .avatar-image {
-                width: 150px;
-                height: 150px;
+            .avatar {
+                width: 100px;
+                height: 100px;
             }
 
-            .description h2 {
-                font-size: 1.3rem;
-            }
-
-            .description p {
-                font-size: 0.9rem;
+            .progress-section,
+            .description {
+                padding: 1.5rem;
             }
         }
 
         @media (max-width: 480px) {
-            .maintenance-card h1 {
-                font-size: 1.5rem;
-            }
-
-            .avatar-image {
-                width: 120px;
-                height: 120px;
-            }
-
             .maintenance-card {
-                padding: 1.5rem;
+                padding: 1.5rem 1rem;
+            }
+
+            .title {
+                font-size: 2rem;
+            }
+
+            .avatar {
+                width: 80px;
+                height: 80px;
+            }
+        }
+
+
+        .loading-dots {
+            display: inline-flex;
+            gap: 4px;
+            margin: 0 0.5rem;
+        }
+
+        .loading-dots span {
+            width: 6px;
+            height: 6px;
+            background: var(--accent);
+            border-radius: 50%;
+            animation: loadingDot 1.4s infinite both;
+        }
+
+        .loading-dots span:nth-child(2) { animation-delay: 0.2s; }
+        .loading-dots span:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes loadingDot {
+            0%, 80%, 100% {
+                transform: scale(0.8);
+                opacity: 0.5;
+            }
+            40% {
+                transform: scale(1);
+                opacity: 1;
             }
         }
     </style>
 </head>
 <body>
-<div class="container">
-    <div class="maintenance-card animate__animated animate__fadeIn">
-        <h1>Servers Under Maintenance</h1>
-        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSuRzINZ4d6v3XOEkcrd6vb9KchRES1vWdeYA&s" alt="Maintenance Animation" class="avatar-image">
-        <div class="admin-info">
-            <strong>Owner:</strong> <span>Basheer</span>
+
+    <div class="bg-animation">
+        <div class="gradient-orb orb-1"></div>
+        <div class="gradient-orb orb-2"></div>
+        <div class="gradient-orb orb-3"></div>
+    </div>
+
+
+    <div class="container">
+        <div class="maintenance-card">
+
+            <i class="fas fa-server float-icon"></i>
+            <i class="fas fa-cog float-icon"></i>
+            <i class="fas fa-tools float-icon"></i>
+            <i class="fas fa-code float-icon"></i>
+
+
+            <div class="header">
+                <div class="status-badge">
+                    <i class="fas fa-tools"></i>
+                    <span>Under Maintenance</span>
+                </div>
+                
+                <h1 class="title">We'll Be Right Back</h1>
+                
+                <p class="subtitle">
+                    Upgrading our systems for an even better experience
+                    <span class="loading-dots">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </span>
+                </p>
+            </div>
+
+
+            <div class="avatar-section">
+                <div class="avatar-container">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSuRzINZ4d6v3XOEkcrd6vb9KchRES1vWdeYA&s" 
+                         alt="Basheer Avatar" 
+                         class="avatar">
+                </div>
+                <div class="owner-info">
+                    Maintained by
+                    <span class="owner-name">Basheer</span>
+                </div>
+            </div>
+
+
+            <div class="progress-section">
+                <div class="progress-title">
+                    <i class="fas fa-rocket" style="color: var(--accent); margin-left: 0.5rem;"></i>
+                    System Enhancement in Progress
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill"></div>
+                </div>
+                <p style="color: var(--text-muted); font-size: 0.9rem;">
+                    Optimizing performance and adding new features...
+                </p>
+            </div>
+
+
+            <div class="description">
+                <h3>
+                    <i class="fas fa-info-circle" style="color: var(--primary); margin-left: 0.5rem;"></i>
+                    What's Happening?
+                </h3>
+                <p>
+                    We're currently performing scheduled maintenance to enhance server performance, 
+                    implement security updates, and introduce exciting new features. This brief 
+                    downtime will result in a faster, more secure, and feature-rich experience.
+                </p>
+                
+                <a href="https://basheer.online" target="_blank" class="contact-link">
+                    <i class="fas fa-globe"></i>
+                    <span>About Me ?</span>
+                </a>
+            </div>
         </div>
     </div>
 
-    <div class="description animate__animated animate__fadeInUp">
-        <h2>We’ll Be Back Soon!</h2>
-        <p>
-            The servers are currently undergoing maintenance to improve performance and ensure a better experience for users. 
-            We are working hard to restore the service as soon as possible.  .
-        </p>
-        <a href="http://basheer.online" target="_blank" style="color: var(--primary-light); text-decoration: none;">
-            <i class="fab fa-telegram-plane"></i> About Me
-        </a>
-    </div>
-</div>
-                </a>
-            </p>
-        </div>
-    </div>
+
+    <script>
+
+        function createParticle() {
+            const particle = document.createElement('div');
+            particle.classList.add('particle');
+            particle.style.left = Math.random() * 100 + 'vw';
+            particle.style.animationDelay = Math.random() * 10 + 's';
+            particle.style.animationDuration = (Math.random() * 10 + 15) + 's';
+            document.querySelector('.bg-animation').appendChild(particle);
+
+
+            setTimeout(() => {
+                particle.remove();
+            }, 25000);
+        }
+
+
+        setInterval(createParticle, 2000);
+
+
+        for (let i = 0; i < 5; i++) {
+            setTimeout(createParticle, i * 1000);
+        }
+
+
+        const progressFill = document.querySelector('.progress-fill');
+        let progress = 0;
+        const updateProgress = () => {
+            progress = (progress + Math.random() * 2) % 100;
+            progressFill.style.width = Math.min(progress, 85) + '%';
+        };
+        
+        setInterval(updateProgress, 3000);
+
+
+        document.addEventListener('mousemove', (e) => {
+            const orbs = document.querySelectorAll('.gradient-orb');
+            orbs.forEach((orb, index) => {
+                const speed = (index + 1) * 0.02;
+                const x = (e.clientX - window.innerWidth / 2) * speed;
+                const y = (e.clientY - window.innerHeight / 2) * speed;
+                orb.style.transform = `translate(${x}px, ${y}px)`;
+            });
+        });
+    </script>
 </body>
 </html>
